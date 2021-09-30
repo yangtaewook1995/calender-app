@@ -18,7 +18,7 @@ const getFirstDay = (year, month) => {
 };
 
 const getLastDate = (year, month) => {
-  const lastDate = new Date(year, month - 1, 0).getDate();
+  const lastDate = new Date(year, month, 0).getDate();
   return lastDate;
 };
 

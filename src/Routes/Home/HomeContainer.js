@@ -17,6 +17,10 @@ class HomeContainer extends React.Component {
     firstDay: null,
   };
 
+  getDate = (year, month) => {
+    return getLastDate(year, month);
+  };
+
   componentDidMount() {
     const nowDate = getTodayDate();
     const nowMonth = getTodayMonth();
@@ -41,6 +45,8 @@ class HomeContainer extends React.Component {
         date={this.state.nowDate}
         lastDate={this.state.lastDate}
         firstDay={this.state.firstDay}
+        getLastDate={this.getDate}
+        getFirstDay={this.getFirstDay}
       ></HomePresenter>
     );
   }
