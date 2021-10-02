@@ -7,6 +7,7 @@ import {
   getFirstDay,
   getLastDate,
 } from "../calcDate";
+import Calender from "../Components/Calendar";
 
 const Month_ENG = [
   "January",
@@ -57,26 +58,7 @@ const drawCalendar = (year, month) => {
     week = [];
   }
 
-  return (
-    <div key={Date.now()}>
-      <Calender key={Date.now()}>
-        {months.map((week) => {
-          return (
-            <Week_Row key={week[0]}>
-              {week.map((item) => {
-                return (
-                  <DateContainer>
-                    <DateContainer_Date>{item}</DateContainer_Date>
-                    <DateContainer_Body></DateContainer_Body>
-                  </DateContainer>
-                );
-              })}
-            </Week_Row>
-          );
-        })}
-      </Calender>
-    </div>
-  );
+  return <div key={Date.now()}></div>;
 };
 
 function Home() {
@@ -97,13 +79,13 @@ function Home() {
   return (
     <div key={Date.now()}>
       <HeaderColumn key={nowMonth}>
-        <button onClick={() => temp--}>◀️</button>
+        {/* <div onClick={drawPrevMonth}>◀️</div>
         <Title>
           {Month_ENG[nowMonth - 1]} {nowYear}
         </Title>
-        <button onClick={drawPrevMonth}>▶️</button>
+        <button onClick={drawPrevMonth}>▶️</button> */}
       </HeaderColumn>
-      {drawCalendar(nowYear, temp)}
+      <Calender year={nowYear} month={nowMonth}></Calender>
     </div>
   );
 }
@@ -115,7 +97,7 @@ const HeaderColumn = styled.div`
 const Title = styled.span``;
 const Arrow = styled.button``;
 
-const Calender = styled.div`
+const CalenderDiv = styled.div`
   background-color: green;
   height: 80vh;
   width: 80vw;
