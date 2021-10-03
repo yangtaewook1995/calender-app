@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import styled from "styled-components";
 
 function Calendar({ year, month }) {
   const makeList = (year, month) => {
@@ -12,7 +13,6 @@ function Calendar({ year, month }) {
     // last date of month
     const lastDate = new Date(year, month, 0).getDate();
 
-    console.log(firstDay, lastDate);
     for (let i = firstDay; i > 0; i--) {
       week.push(new Date(year, month - 1, 0).getDate() - i + 1);
     }
@@ -43,48 +43,71 @@ function Calendar({ year, month }) {
 
   const drawCalender = (year, month) => {
     const monthData = makeList(year, month);
-    const result = (
-      <div>
+    console.log(monthData);
+    return (
+      <CalendarContainer>
+        <Weeks>
+          <WeekItem>Sun</WeekItem>
+          <WeekItem>Mon</WeekItem>
+          <WeekItem>Tue</WeekItem>
+          <WeekItem>Wed</WeekItem>
+          <WeekItem>Thu</WeekItem>
+          <WeekItem>Fri</WeekItem>
+          <WeekItem>Sat</WeekItem>
+        </Weeks>
         {monthData.map((week) => {
           return (
-            <div>
+            <CalendarRow>
               {week.map((item) => {
                 return (
-                  <div>
-                    <div>{item}</div>
-                    <div></div>
-                  </div>
+                  <CalendarItem>
+                    <CalendarItemDate>{item}</CalendarItemDate>
+                    <CalendarItemBody></CalendarItemBody>
+                  </CalendarItem>
                 );
               })}
-            </div>
+            </CalendarRow>
           );
         })}
-      </div>
+      </CalendarContainer>
     );
-
-    return;
   };
 
-  return <div>{makeList(year, month)}</div>;
+  return <CalendarBox>{drawCalender(year, month)}</CalendarBox>;
 }
 
 export default Calendar;
 
-{
-  /* <CalenderDiv key={Date.now()}>
-{weeks.map((week) => {
-  return (
-    <Week_Row key={week[0]}>
-      {week.map((item) => {
-        return (
-          <DateContainer>
-            <DateContainer_Date>{item}</DateContainer_Date>
-            <DateContainer_Body></DateContainer_Body>
-          </DateContainer>
-        );
-      })}
-    </Week_Row>
-  );
-})}
-</CalenderDiv> */
-}
+const Weeks = styled.div`
+  display: flex;
+`;
+
+const WeekItem = styled.div`
+  width: 70vw;
+  witdh: 100%;
+`;
+
+const CalendarBox = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+`;
+
+const CalendarContainer = styled.div`
+  width: 70vw;
+  height: 70vh;
+`;
+
+const CalendarRow = styled.div`
+  display: flex;
+  width: 100%;
+  height: 15%;
+`;
+
+const CalendarItem = styled.div`
+  width: 100%;
+`;
+
+const CalendarItemDate = styled.div``;
+
+const CalendarItemBody = styled.div``;

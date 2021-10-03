@@ -1,12 +1,7 @@
-import React from "react";
+import { render } from "@testing-library/react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import {
-  getTodayYear,
-  getTodayMonth,
-  getTodayDate,
-  getFirstDay,
-  getLastDate,
-} from "../calcDate";
+import { getTodayYear, getTodayMonth, getTodayDate } from "../calcDate";
 import Calender from "../Components/Calendar";
 
 const Month_ENG = [
@@ -24,100 +19,54 @@ const Month_ENG = [
   "December",
 ];
 
-const drawCalendar = (year, month) => {
-  let week = [];
-  let cnt = 1;
-  let months = [];
-  let count = 1;
-
-  const firstDay = getFirstDay(year, month);
-  const lastDate = getLastDate(year, month);
-  console.log(firstDay, lastDate);
-  for (let i = firstDay; i > 0; i--) {
-    week.push(getLastDate(year, month - 1) - i + 1);
-  }
-  for (let i = firstDay; i < 7; i++) {
-    week.push(cnt);
-    cnt++;
-  }
-  months.push(week);
-  week = [];
-
-  for (let j = 0; j < 5; j++) {
-    for (let i = 0; i < 7; i++) {
-      if (cnt > lastDate) {
-        week.push(count);
-        count++;
-        continue;
-      }
-      week.push(cnt);
-      cnt++;
-    }
-    if (count > 7) break;
-    months.push(week);
-    week = [];
-  }
-
-  return <div key={Date.now()}></div>;
-};
-
 function Home() {
   let nowYear = getTodayYear();
   let nowMonth = getTodayMonth();
   let temp = nowMonth;
+
+  const [month, setMonth] = useState(nowMonth);
+  const [year, setYear] = useState(nowYear);
+
   const drawPrevMonth = () => {
     if (nowMonth == 1) {
       nowYear--;
       nowMonth = 12;
     } else nowMonth--;
+    setYear(nowYear);
+    setMonth(nowMonth);
+  };
 
-    console.log(nowYear, nowMonth);
-
-    drawCalendar(nowYear, nowMonth);
+  const drawNextMonth = () => {
+    if (nowMonth == 12) {
+      nowYear++;
+      nowMonth = 1;
+    } else nowMonth++;
+    setYear(nowYear);
+    setMonth(nowMonth);
   };
 
   return (
-    <div key={Date.now()}>
-      <HeaderColumn key={nowMonth}>
-        {/* <div onClick={drawPrevMonth}>◀️</div>
+    <div>
+      <HeaderColumn>
+        <Arrow onClick={drawPrevMonth}>◀️</Arrow>
         <Title>
-          {Month_ENG[nowMonth - 1]} {nowYear}
+          {Month_ENG[month - 1]} {year}
         </Title>
-        <button onClick={drawPrevMonth}>▶️</button> */}
+        <Arrow onClick={drawNextMonth}>▶️</Arrow>
       </HeaderColumn>
-      <Calender year={nowYear} month={nowMonth}></Calender>
+      <Calender year={nowYear} month={month}></Calender>
     </div>
   );
 }
 
 const HeaderColumn = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  margin-top: 20px;
 `;
 const Title = styled.span``;
-const Arrow = styled.button``;
-
-const CalenderDiv = styled.div`
-  background-color: green;
-  height: 80vh;
-  width: 80vw;
-  margin-left: 20vh;
+const Arrow = styled.button`
+  margin: 0px 20px;
 `;
-
-const Week_Row = styled.div`
-  background-color: blue;
-  display: flex;
-  height: 15%;
-  width: 100%;
-`;
-
-const DateContainer = styled.div`
-  height: 100%;
-  width: 100%;
-`;
-const DateContainer_Date = styled.div`
-  background-color: red;
-`;
-const DateContainer_Body = styled.div``;
 
 export default Home;
