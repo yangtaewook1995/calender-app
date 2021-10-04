@@ -65,6 +65,7 @@ const HeaderColumn = styled.div`
   margin-top: 20px;
 `;
 const Title = styled.span``;
+
 const Arrow = styled.button`
   margin: 0px 20px;
 `;
