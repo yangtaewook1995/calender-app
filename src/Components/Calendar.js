@@ -14,7 +14,7 @@ function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
     const lastDate = new Date(year, month, 0).getDate();
 
     for (let i = firstDay; i > 0; i--) {
-      week.push(new Date(year, month - 1, 0).getDate() - i + 1);
+      week.push(new Date(year, month - 1, 0).getDate() - i + 1 + "a");
     }
     for (let i = firstDay; i < 7; i++) {
       week.push(cnt);
@@ -26,7 +26,7 @@ function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
     for (let j = 0; j < 5; j++) {
       for (let i = 0; i < 7; i++) {
         if (cnt > lastDate) {
-          week.push(count);
+          week.push(count + "a");
           count++;
           continue;
         }
@@ -41,7 +41,7 @@ function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
     return weeks;
   };
 
-  const drawCalender = (year, month, nowDate) => {
+  const drawCalender = (year, month, nowYear, nowMonth, nowDate) => {
     const monthData = makeList(year, month);
     return (
       <CalendarContainer>
@@ -62,8 +62,10 @@ function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
                   <CalendarItem>
                     <CalendarItemDate
                       style={
-                        item == nowDate
-                          ? { color: "green" }
+                        item.toString().includes("a")
+                          ? { color: "grey" }
+                          : item == nowDate
+                          ? {}
                           : index == 0
                           ? { color: "red" }
                           : index == 6
@@ -71,7 +73,19 @@ function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
                           : { color: "black" }
                       }
                     >
-                      {item}
+                      <TodayBox
+                        style={
+                          item == nowDate &&
+                          year == nowYear &&
+                          month == nowMonth
+                            ? { backgroundColor: "blue", color: "white" }
+                            : {}
+                        }
+                      >
+                        {item.toString().includes("a")
+                          ? item.replace("a", "")
+                          : item}
+                      </TodayBox>
                     </CalendarItemDate>
                     <CalendarItemBody></CalendarItemBody>
                   </CalendarItem>
@@ -84,7 +98,11 @@ function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
     );
   };
 
-  return <CalendarBox>{drawCalender(year, month, nowDate)}</CalendarBox>;
+  return (
+    <CalendarBox>
+      {drawCalender(year, month, nowYear, nowMonth, nowDate)}
+    </CalendarBox>
+  );
 }
 
 export default Calendar;
@@ -129,6 +147,13 @@ const CalendarItem = styled.div`
 const CalendarItemDate = styled.div`
   text-align: center;
   margin-top: 3px;
+  display: flex;
+  justify-content: center;
 `;
 
 const CalendarItemBody = styled.div``;
+
+const TodayBox = styled.div`
+  width: 10%;
+  border-radius: 50%;
+`;
