@@ -22,52 +22,79 @@ const Month_ENG = [
 function Home() {
   let nowYear = getTodayYear();
   let nowMonth = getTodayMonth();
-  let temp = nowMonth;
+  let nowDate = getTodayDate();
 
   const [month, setMonth] = useState(nowMonth);
   const [year, setYear] = useState(nowYear);
 
-  const drawPrevMonth = () => {
-    if (nowMonth == 1) {
-      nowYear--;
-      nowMonth = 12;
-    } else nowMonth--;
+  const drawTodayMonth = () => {
     setYear(nowYear);
     setMonth(nowMonth);
   };
 
+  const drawPrevMonth = () => {
+    let tempMonth = month;
+    let tempYear = year;
+    if (tempMonth == 1) {
+      tempYear--;
+      tempMonth = 12;
+    } else tempMonth--;
+    setYear(tempYear);
+    setMonth(tempMonth);
+  };
+
   const drawNextMonth = () => {
-    if (nowMonth == 12) {
-      nowYear++;
-      nowMonth = 1;
-    } else nowMonth++;
-    setYear(nowYear);
-    setMonth(nowMonth);
+    let tempMonth = month;
+    let tempYear = year;
+    if (tempMonth == 12) {
+      tempYear++;
+      tempMonth = 1;
+    } else tempMonth++;
+    setYear(tempYear);
+    setMonth(tempMonth);
   };
 
   return (
     <div>
       <HeaderColumn>
-        <Arrow onClick={drawPrevMonth}>◀️</Arrow>
+        <Today onClick={drawTodayMonth}>Today</Today>
+        <Arrow onClick={drawPrevMonth}>&lt;</Arrow>
+        <Arrow onClick={drawNextMonth}>&gt;</Arrow>
         <Title>
           {Month_ENG[month - 1]} {year}
         </Title>
-        <Arrow onClick={drawNextMonth}>▶️</Arrow>
       </HeaderColumn>
-      <Calender year={nowYear} month={month}></Calender>
+      <Calender
+        year={year}
+        month={month}
+        nowYear={nowYear}
+        nowMonth={nowMonth}
+        nowDate={nowDate}
+      ></Calender>
     </div>
   );
 }
 
 const HeaderColumn = styled.div`
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
+  justify-content: flex-start;
+  margin-top: 40px;
+  margin-left: 130px;
+  margin-bottom: 40px;
 `;
-const Title = styled.span``;
 
-const Arrow = styled.button`
-  margin: 0px 20px;
+const Title = styled.span`
+  font-size: 20px;
+`;
+
+const Today = styled.span`
+  font-size: 20px;
+  margin-right: 10px;
+`;
+
+const Arrow = styled.div`
+  font-size: 20px;
+  margin-right: 20px;
 `;
 
 export default Home;

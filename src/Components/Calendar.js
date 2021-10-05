@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
-function Calendar({ year, month }) {
+function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
   const makeList = (year, month) => {
     let week = [];
     let cnt = 1;
@@ -41,9 +41,8 @@ function Calendar({ year, month }) {
     return weeks;
   };
 
-  const drawCalender = (year, month) => {
+  const drawCalender = (year, month, nowDate) => {
     const monthData = makeList(year, month);
-    console.log(monthData);
     return (
       <CalendarContainer>
         <Weeks>
@@ -58,10 +57,22 @@ function Calendar({ year, month }) {
         {monthData.map((week) => {
           return (
             <CalendarRow>
-              {week.map((item) => {
+              {week.map((item, index) => {
                 return (
                   <CalendarItem>
-                    <CalendarItemDate>{item}</CalendarItemDate>
+                    <CalendarItemDate
+                      style={
+                        item == nowDate
+                          ? { color: "green" }
+                          : index == 0
+                          ? { color: "red" }
+                          : index == 6
+                          ? { color: "blue" }
+                          : { color: "black" }
+                      }
+                    >
+                      {item}
+                    </CalendarItemDate>
                     <CalendarItemBody></CalendarItemBody>
                   </CalendarItem>
                 );
@@ -73,29 +84,34 @@ function Calendar({ year, month }) {
     );
   };
 
-  return <CalendarBox>{drawCalender(year, month)}</CalendarBox>;
+  return <CalendarBox>{drawCalender(year, month, nowDate)}</CalendarBox>;
 }
 
 export default Calendar;
 
 const Weeks = styled.div`
   display: flex;
+  width: 100%;
 `;
 
 const WeekItem = styled.div`
-  width: 70vw;
-  witdh: 100%;
+  width: 100%;
+  text-align: center;
+  border-right: 1px solid black;
 `;
 
 const CalendarBox = styled.div`
   display: flex;
-  justify-content: center;
-  margin-top: 5%;
+  justify-content: space-between;
+  width: 100vw;
+  height: 90vh;
 `;
 
 const CalendarContainer = styled.div`
-  width: 70vw;
-  height: 70vh;
+  width: 100%;
+  height: 100%;
+  border: 1px solid black;
+  border-bottom: 0;
 `;
 
 const CalendarRow = styled.div`
@@ -106,8 +122,13 @@ const CalendarRow = styled.div`
 
 const CalendarItem = styled.div`
   width: 100%;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
 `;
 
-const CalendarItemDate = styled.div``;
+const CalendarItemDate = styled.div`
+  text-align: center;
+  margin-top: 3px;
+`;
 
 const CalendarItemBody = styled.div``;
