@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
   const makeList = (year, month) => {
@@ -63,7 +64,7 @@ function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
                     <CalendarItemDate
                       style={
                         item.toString().includes("a")
-                          ? { color: "grey" }
+                          ? { color: "lightgray" }
                           : item == nowDate
                           ? {}
                           : index == 0
@@ -87,7 +88,9 @@ function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
                           : item}
                       </TodayBox>
                     </CalendarItemDate>
-                    <CalendarItemBody></CalendarItemBody>
+                    <Link to={`/add/${year}b${month}b${item}`}>
+                      <CalendarItemBody></CalendarItemBody>{" "}
+                    </Link>
                   </CalendarItem>
                 );
               })}
@@ -115,7 +118,8 @@ const Weeks = styled.div`
 const WeekItem = styled.div`
   width: 100%;
   text-align: center;
-  border-right: 1px solid black;
+  border-right: 1px solid lightgray;
+  color: grey;
 `;
 
 const CalendarBox = styled.div`
@@ -128,7 +132,7 @@ const CalendarBox = styled.div`
 const CalendarContainer = styled.div`
   width: 100%;
   height: 100%;
-  border: 1px solid black;
+  border: 1px solid lightgray;
   border-bottom: 0;
 `;
 
@@ -140,8 +144,8 @@ const CalendarRow = styled.div`
 
 const CalendarItem = styled.div`
   width: 100%;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
+  border-bottom: 1px solid lightgray;
+  border-right: 1px solid lightgray;
 `;
 
 const CalendarItemDate = styled.div`
@@ -151,7 +155,10 @@ const CalendarItemDate = styled.div`
   justify-content: center;
 `;
 
-const CalendarItemBody = styled.div``;
+const CalendarItemBody = styled.div`
+  width: 100%;
+  height: 85%;
+`;
 
 const TodayBox = styled.div`
   width: 10%;
