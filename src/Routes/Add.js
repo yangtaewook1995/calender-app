@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Schedule from "../Components/Schedule";
@@ -9,15 +9,32 @@ function Add(props) {
   } = props;
   const Date = pathname.substring(5, pathname.length).split("b");
 
-  console.log(Date);
+  let plans =
+    localStorage.getItem("plans") == null
+      ? []
+      : JSON.parse(localStorage.getItem("plans"));
 
-  let plans = [];
+  const [schedule, setSchedule] = useState(plans);
 
   const addPlan = () => {
     const plan = document.querySelector(".planBody").value;
-    const time = document.querySelector(".plantime").value;
+    const hour = document.querySelector(".planHour").value;
+    const minute = document.querySelector(".planMin").value;
+    if (
+      Number(hour) <= 24 &&
+      Number(hour) >= 0 &&
+      Number(minute) <= 60 &&
+      Number(minute) >= 0
+    ) {
+      plans.push({ plan: plan, date: Date, hour: hour, minute: minute });
+      setSchedule(plans);
 
-    return <Schedule date={Date} plans={plans}></Schedule>;
+      window.localStorage.setItem("plans", JSON.stringify(plans));
+      alert("Success Add Schedule");
+      props.history.goBack();
+    } else {
+      alert("Invalid Time");
+    }
   };
 
   return (
@@ -25,7 +42,8 @@ function Add(props) {
       <Title>새로운 일정</Title>
       <Body>
         <BodyPlan className="planBody" placeholder="일정 추가"></BodyPlan>
-        <BodyTime className="plantime" placeholder="시간 추가"></BodyTime>
+        <BodyTime className="planHour" placeholder="시"></BodyTime>
+        <BodyTime className="planMin" placeholder="분"></BodyTime>
       </Body>
       <Confirm>
         <button onClick={addPlan}>저장</button>

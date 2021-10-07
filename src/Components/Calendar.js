@@ -3,6 +3,13 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
+  const planObj = JSON.parse(localStorage.getItem("plans"));
+  let dateList = [];
+
+  for (let i in planObj) {
+    dateList.push(planObj[i].date[0] + planObj[i].date[1] + planObj[i].date[2]);
+  }
+
   const makeList = (year, month) => {
     let week = [];
     let cnt = 1;
@@ -44,6 +51,10 @@ function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
 
   const drawCalender = (year, month, nowYear, nowMonth, nowDate) => {
     const monthData = makeList(year, month);
+    console.log(dateList[0]);
+    console.log(year.toString() + month.toString() + "13");
+    console.log(dateList.indexOf(year.toString() + month.toString() + "13"));
+
     return (
       <CalendarContainer>
         <Weeks>
@@ -88,9 +99,53 @@ function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
                           : item}
                       </TodayBox>
                     </CalendarItemDate>
-                    <Link to={`/add/${year}b${month}b${item}`}>
-                      <CalendarItemBody></CalendarItemBody>{" "}
-                    </Link>
+                    <CalendarItemBody>
+                      {dateList.indexOf(
+                        year.toString() + month.toString() + item.toString()
+                      ) != -1 ? (
+                        <Schedule>
+                          <ScheduleHour>
+                            {
+                              planObj[
+                                dateList.indexOf(
+                                  year.toString() +
+                                    month.toString() +
+                                    item.toString()
+                                )
+                              ].hour
+                            }
+                          </ScheduleHour>
+                          <ScheduleDiv>:</ScheduleDiv>
+                          <ScheduleMin>
+                            {
+                              planObj[
+                                dateList.indexOf(
+                                  year.toString() +
+                                    month.toString() +
+                                    item.toString()
+                                )
+                              ].minute
+                            }
+                          </ScheduleMin>
+                          <SchedulePlan>
+                            {
+                              planObj[
+                                dateList.indexOf(
+                                  year.toString() +
+                                    month.toString() +
+                                    item.toString()
+                                )
+                              ].plan
+                            }
+                          </SchedulePlan>
+                        </Schedule>
+                      ) : (
+                        <Schedule></Schedule>
+                      )}
+                      <Link to={`/add/${year}b${month}b${item}`}>
+                        <CalendarItemBlank></CalendarItemBlank>
+                      </Link>
+                    </CalendarItemBody>
                   </CalendarItem>
                 );
               })}
@@ -160,7 +215,33 @@ const CalendarItemBody = styled.div`
   height: 85%;
 `;
 
+const CalendarItemBlank = styled.div`
+  width: 100%;
+  height: 80%;
+`;
+
 const TodayBox = styled.div`
   width: 10%;
   border-radius: 50%;
 `;
+
+const Schedule = styled.div`
+  background-color: green;
+  border-radius: 20px;
+  display: flex;
+  color: white;
+  margin: 5px 5px;
+  font-size: 15px;
+`;
+
+const ScheduleHour = styled.span`
+  margin-left: 10px;
+`;
+const ScheduleDiv = styled.span`
+  margin-left: 3px;
+  margin-right: 3px;
+`;
+const ScheduleMin = styled.span`
+  margin-right: 5px;
+`;
+const SchedulePlan = styled.span``;
