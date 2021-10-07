@@ -17,9 +17,7 @@ function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
     let weeks = [];
     let count = 1;
 
-    // Day of (month, 1)
     const firstDay = new Date(year, month - 1, 1).getDay();
-    // last date of month
     const lastDate = new Date(year, month, 0).getDate();
 
     for (let i = firstDay; i > 0; i--) {
@@ -52,17 +50,7 @@ function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
 
   const drawCalender = (year, month, nowYear, nowMonth, nowDate) => {
     const monthData = makeList(year, month);
-    console.log(dateList);
-    console.log(
-      dateList
-        .map((element, index) => {
-          let tmp = [];
-          return element == year.toString() + month.toString() + "13"
-            ? index
-            : "x";
-        })
-        .filter((el) => el != "x")
-    );
+
     return (
       <CalendarContainer>
         <Weeks>

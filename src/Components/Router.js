@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Switch, HashRouter as Router } from "react-router-dom";
 import Home from "../Routes/Home";
 import Add from "../Routes/Add";
-import Schedule from "./Schedule";
+import Schedule from "../Routes/Schedule";
 
 export default () => {
   return (
