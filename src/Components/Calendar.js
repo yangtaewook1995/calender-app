@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
   const planObj = JSON.parse(localStorage.getItem("plans"));
   let dateList = [];
+  let sample = [];
 
   for (let i in planObj) {
     dateList.push(planObj[i].date[0] + planObj[i].date[1] + planObj[i].date[2]);
@@ -51,10 +52,17 @@ function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
 
   const drawCalender = (year, month, nowYear, nowMonth, nowDate) => {
     const monthData = makeList(year, month);
-    console.log(dateList[0]);
-    console.log(year.toString() + month.toString() + "13");
-    console.log(dateList.indexOf(year.toString() + month.toString() + "13"));
-
+    console.log(dateList);
+    console.log(
+      dateList
+        .map((element, index) => {
+          let tmp = [];
+          return element == year.toString() + month.toString() + "13"
+            ? index
+            : "x";
+        })
+        .filter((el) => el != "x")
+    );
     return (
       <CalendarContainer>
         <Weeks>
@@ -103,42 +111,29 @@ function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
                       {dateList.indexOf(
                         year.toString() + month.toString() + item.toString()
                       ) != -1 ? (
-                        <Schedule>
-                          <ScheduleHour>
-                            {
-                              planObj[
-                                dateList.indexOf(
-                                  year.toString() +
-                                    month.toString() +
-                                    item.toString()
-                                )
-                              ].hour
-                            }
-                          </ScheduleHour>
-                          <ScheduleDiv>:</ScheduleDiv>
-                          <ScheduleMin>
-                            {
-                              planObj[
-                                dateList.indexOf(
-                                  year.toString() +
-                                    month.toString() +
-                                    item.toString()
-                                )
-                              ].minute
-                            }
-                          </ScheduleMin>
-                          <SchedulePlan>
-                            {
-                              planObj[
-                                dateList.indexOf(
-                                  year.toString() +
-                                    month.toString() +
-                                    item.toString()
-                                )
-                              ].plan
-                            }
-                          </SchedulePlan>
-                        </Schedule>
+                        dateList
+                          .map((element, index) => {
+                            let tmp = [];
+                            return element ==
+                              year.toString() +
+                                month.toString() +
+                                item.toString()
+                              ? index
+                              : "x";
+                          })
+                          .filter((el) => el != "x")
+                          .sort((a, b) => planObj[a].minute - planObj[b].minute)
+                          .sort((a, b) => planObj[a].hour - planObj[b].hour)
+                          .map((el, id) => {
+                            return (
+                              <Schedule>
+                                <ScheduleHour>{planObj[el].hour}</ScheduleHour>
+                                <ScheduleDiv>:</ScheduleDiv>
+                                <ScheduleMin>{planObj[el].minute}</ScheduleMin>
+                                <SchedulePlan>{planObj[el].plan}</SchedulePlan>
+                              </Schedule>
+                            );
+                          })
                       ) : (
                         <Schedule></Schedule>
                       )}
