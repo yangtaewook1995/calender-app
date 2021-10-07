@@ -126,12 +126,26 @@ function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
                           .sort((a, b) => planObj[a].hour - planObj[b].hour)
                           .map((el, id) => {
                             return (
-                              <Schedule>
-                                <ScheduleHour>{planObj[el].hour}</ScheduleHour>
-                                <ScheduleDiv>:</ScheduleDiv>
-                                <ScheduleMin>{planObj[el].minute}</ScheduleMin>
-                                <SchedulePlan>{planObj[el].plan}</SchedulePlan>
-                              </Schedule>
+                              <Link
+                                to={`/detail/${year}b${month}b${item}b${el}`}
+                              >
+                                <Schedule>
+                                  <ScheduleHour>
+                                    {planObj[el].hour.length < 2
+                                      ? "0" + planObj[el].hour
+                                      : planObj[el].hour}
+                                  </ScheduleHour>
+                                  <ScheduleDiv>:</ScheduleDiv>
+                                  <ScheduleMin>
+                                    {planObj[el].minute.length < 2
+                                      ? "0" + planObj[el].minute
+                                      : planObj[el].minute}
+                                  </ScheduleMin>
+                                  <SchedulePlan>
+                                    {planObj[el].plan}
+                                  </SchedulePlan>
+                                </Schedule>
+                              </Link>
                             );
                           })
                       ) : (
@@ -222,11 +236,11 @@ const TodayBox = styled.div`
 
 const Schedule = styled.div`
   background-color: green;
-  border-radius: 20px;
+  border-radius: 5px;
   display: flex;
   color: white;
   margin: 5px 5px;
-  font-size: 15px;
+  font-size: 13px;
 `;
 
 const ScheduleHour = styled.span`

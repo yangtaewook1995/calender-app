@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import Schedule from "../Components/Schedule";
 
 function Add(props) {
   const {
@@ -26,7 +25,17 @@ function Add(props) {
       Number(minute) <= 60 &&
       Number(minute) >= 0
     ) {
-      plans.push({ plan: plan, date: Date, hour: hour, minute: minute });
+      let max = -1;
+      for (let i in plans) {
+        if (plans[i].id > max) max = plans[i].id;
+      }
+      plans.push({
+        plan: plan,
+        date: Date,
+        hour: hour,
+        minute: minute,
+        id: max + 1,
+      });
       setSchedule(plans);
 
       window.localStorage.setItem("plans", JSON.stringify(plans));
@@ -47,7 +56,7 @@ function Add(props) {
       </Body>
       <Confirm>
         <button onClick={addPlan}>저장</button>
-        <Link to={"/"}>뒤로</Link>
+        <button onClick={props.history.goBack}>뒤로</button>
       </Confirm>
     </Container>
   );
@@ -60,7 +69,9 @@ const Container = styled.div``;
 const Title = styled.div``;
 
 const Body = styled.div``;
-const BodyPlan = styled.input``;
+const BodyPlan = styled.input`
+  display: block;
+`;
 const BodyTime = styled.input``;
 
 const Confirm = styled.div``;
