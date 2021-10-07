@@ -81,20 +81,33 @@ const HeaderColumn = styled.div`
   margin-top: 40px;
   margin-left: 130px;
   margin-bottom: 40px;
+  align-items: center;
 `;
 
 const Title = styled.span`
-  font-size: 20px;
+  font-size: 30px;
+  color: grey;
 `;
 
 const Today = styled.span`
   font-size: 20px;
   margin-right: 10px;
+  border: 1px solid lightgray;
+  padding: 10px;
+  border-radius: 10px;
+  :hover {
+    cursor: pointer;
+  }
+  color: grey;
 `;
 
 const Arrow = styled.div`
   font-size: 20px;
   margin-right: 20px;
+  :hover {
+    cursor: pointer;
+  }
+  color: grey;
 `;
 
 export default Home;

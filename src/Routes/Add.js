@@ -50,13 +50,13 @@ function Add(props) {
     <Container>
       <Title>새로운 일정</Title>
       <Body>
-        <BodyPlan className="planBody" placeholder="일정 추가"></BodyPlan>
-        <BodyTime className="planHour" placeholder="시"></BodyTime>
-        <BodyTime className="planMin" placeholder="분"></BodyTime>
+        <BodyPlan className="planBody" placeholder="제목 추가"></BodyPlan>
+        <BodyTime className="planHour" placeholder="시간 추가"></BodyTime>
+        <BodyTime className="planMin" placeholder="시간 추가"></BodyTime>
       </Body>
       <Confirm>
-        <button onClick={addPlan}>저장</button>
-        <button onClick={props.history.goBack}>뒤로</button>
+        <ConfirmButton onClick={addPlan}>저장</ConfirmButton>
+        <BackButton onClick={props.history.goBack}>뒤로</BackButton>
       </Confirm>
     </Container>
   );
@@ -64,14 +64,86 @@ function Add(props) {
 
 export default Add;
 
-const Container = styled.div``;
+const Container = styled.div`
+  margin: 40px;
+  width: 50vw;
+  height: 80vh;
+  border: 1px solid lightgray;
+`;
 
-const Title = styled.div``;
+const Title = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #4b86d8;
+  width: 100%;
+  height: 20%;
+  color: white;
+  text-align: center;
+  font-size: 25px;
+`;
 
-const Body = styled.div``;
+const Body = styled.div`
+  width: 100%;
+  height: 60%;
+  margin-top: 50px;
+  margin-left: 20px;
+`;
+
 const BodyPlan = styled.input`
   display: block;
+  width: calc(100% - 40px);
+  font-size: 25px;
+  border: none;
+  border-bottom: 2px solid lightgray;
+  margin-top: 50px;
+  margin: 20px 0px;
+  :focus {
+    outline-offset: 0px;
+    outline: none;
+  }
 `;
-const BodyTime = styled.input``;
+const BodyTime = styled.input`
+  width: calc(50% - 30px);
+  font-size: 25px;
+  border: none;
+  border-bottom: 2px solid lightgray;
+  margin: 20px 0px;
+  margin-top: 50px;
+  margin-right: 20px;
+  :focus {
+    outline-offset: 0px;
+    outline: none;
+  }
+`;
 
-const Confirm = styled.div``;
+const Confirm = styled.div`
+  margin: 20px 20px;
+`;
+
+const ConfirmButton = styled.button`
+  border: none;
+  width: 40%;
+  background-color: #58c6b3;
+  color: white;
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const BackButton = styled.button`
+  margin-left: 10px;
+  width: 40%;
+  border: none;
+  background-color: #58c6b3;
+  color: white;
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  :hover {
+    cursor: pointer;
+  }
+`;

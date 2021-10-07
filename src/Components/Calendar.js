@@ -98,7 +98,7 @@ function Calendar({ year, month, nowYear, nowMonth, nowDate }) {
                           item == nowDate &&
                           year == nowYear &&
                           month == nowMonth
-                            ? { backgroundColor: "blue", color: "white" }
+                            ? { backgroundColor: "#4b86d8", color: "white" }
                             : {}
                         }
                       >
@@ -230,8 +230,10 @@ const CalendarItemBlank = styled.div`
 `;
 
 const TodayBox = styled.div`
-  width: 10%;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
+  text-align: center;
 `;
 
 const Schedule = styled.div`
